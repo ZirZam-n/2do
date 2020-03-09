@@ -30,12 +30,11 @@ function create_todo
   id=`cat lastid`
 
   printf "Todo description: "
-  read title
+  read description
 
   mkdir $id
   echo $description > $id/desc
   echo TODO > $id/state
-  show_todo $title
 
   echo `expr $id + 1` > lastid
 }
@@ -43,11 +42,11 @@ function create_todo
 function list_todos
 {
 
-  todos=(`(ls -d ./*/ 2> /dev/null) | cut -d'/' -f1`)
+  todos=(`(ls -d */ 2> /dev/null) | cut -d'/' -f1`)
   echo List of todos
   for todo in ${todos[@]}
     do
-      echo $todo: `cat ./$todo/status` `cat ./$todo/desc`
+      echo $todo: `cat ./$todo/state` `cat ./$todo/desc`
     done
 }
 
