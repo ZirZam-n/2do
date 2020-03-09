@@ -27,7 +27,6 @@ function delete_todo
 
 function create_todo
 {
-  clear
   id=`cat lastid`
 
   printf "Todo description: "
@@ -43,24 +42,35 @@ function create_todo
 
 function list_todos
 {
-  while true
-    do
-      clear
-      todos=(`ls -d */ | cut -d'/' -f1`)
 
-      for todo in ${todos[@]}
-        do
-          echo $todo: `cat ./$todo/status` `cat ./$todo/desc`
-        done
+  todos=(`(ls -d ./*/ 2> /dev/null) | cut -d'/' -f1`)
+  echo List of todos
+  for todo in ${todos[@]}
+    do
+      echo $todo: `cat ./$todo/status` `cat ./$todo/desc`
     done
 }
 
 function switch_todo
 {
-  if [[ $# -ne 2 ]]
-    then
-      echo Invalid command!
-    fi
+  test $# -eq 2 || echo Invalid command! && return 1
+  test -d $2 || echo No such todo! && return 1
+
+  comm=${$1,,}
+  case $comm in
+    "todo")
+      status=TODO
+      ;;
+    "doing")
+      status=DOING
+      ;;
+    "done")
+      status=DONE
+      ;;
+    *)
+      echo Invalid command! && return 1
+      ;;
+  esac
   
 }
 
@@ -69,34 +79,30 @@ function command_handler
   printf "> "
   read choice
 
-  test $choice -eq $choice 2> /dev/null
-  if [ $? -eq 0 ]
-    then
+  case $choice in
+    l)
+      list_todos
+      ;;
+    n)
+      create_todo
+      ;;
+    d*)
+      delete_todo ${choice:1}
+      ;;
+    q)
+      exit 0
+      ;;
+    help)
+      print_help
+      ;;
+    *)
       switch_todo $choice
-    else
-      case $choice in
-        n)
-          create_todo
-          ;;
-        d*)
-          delete_todo ${choice:1}
-          ;;
-        q)
-          exit 0
-          ;;
-        help)
-          print_help
-          ;;
-        *)
-          echo Invalid command!
-          ;;
-      esac
-    fi
+      ;;
+  esac
 }
 
-if [[ $# == 0 ]]
-  then
-    list_todos
-    exit 0
-  fi
+while true
+  do
+    command_handler
+  done
 
