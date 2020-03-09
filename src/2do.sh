@@ -2,130 +2,101 @@
 
 DATA_DIR=~/.2do
 mkdir -p $DATA_DIR
+cd $DATA_DIR
+
+test -f lastid || echo 0 > lastid
 
 PROG=`echo $0 | rev | cut -d'/' -f1 | rev`
 
-function delete_todolist
+function delete_todo
 {
-  cd $DATA_DIR
   while true
     do
-      print "delete `pwd`/$@?(y/n)"
+      print "delete `pwd`/$*?(y/n)"
       read choice
       if [[ $choice == "y" ]]
         then
-          rm -rf $@
+          rm -rf "$*"
           break
       elif [[ $choice == "n" ]]
         then
           break
         fi
-      rm -rf $@
     done
 }
 
-function create_todolist
+function create_todo
 {
-  cd $DATA_DIR
   clear
-  while true
-    do
-      printf "Todolist title: "
-      read title
-      mkdir $title
-      if [[ $? == 0 ]]
-        then
-          show_todo $title
-          break
-        fi
-      clear
-      echo Error: could not create $title todo list! try again.
-    done
+  id=`cat lastid`
+
+  printf "Todo description: "
+  read title
+
+  mkdir $id
+  echo $description > $id/desc
+  echo TODO > $id/state
+  show_todo $title
+
+  echo `expr $id + 1` > lastid
 }
 
-function show_todolist
+function list_todos
 {
-  cd $DATA_DIR/$1
-  clear
   while true
     do
       clear
-      todos=(`ls`)
-      todos_count=${#todos[@]}
+      todos=(`ls -d */ | cut -d'/' -f1`)
 
-      for((i=0;i<todos_count;i++))
+      for todo in ${todos[@]}
         do
-          echo $i: ${todos[$i]}
+          echo $todo: `cat ./$todo/status` `cat ./$todo/desc`
         done
-
-      read choice
-
-      if [ $choice -eq $choice -a $choice -lt $todos_count -a $choice -ge 0 ]
-        then
-          show_todolist ${todos[$choice]}
-        else
-          case $choice in
-            n)
-              create_todolist
-              ;;
-            d*)
-              delete_todolist ${choice:1}
-              ;;
-            q)
-              exit 0
-              ;;
-            *)
-              continue
-              ;;
-          esac
-        fi
-      break
     done
+}
+
+function switch_todo
+{
+  if [[ $# -ne 2 ]]
+    then
+      echo Invalid command!
+    fi
   
 }
 
-function list_todolists
+function command_handler
 {
-  cd $DATA_DIR
-  while true
-    do
-      clear
-      todos=(`ls`)
-      todos_count=${#todos[@]}
+  printf "> "
+  read choice
 
-      for((i=0;i<todos_count;i++))
-        do
-          echo $i: ${todos[$i]}
-        done
-
-      read choice
-
-      if [ $choice -eq $choice -a $choice -lt $todos_count -a $choice -ge 0 ]
-        then
-          show_todolist ${todos[$choice]}
-        else
-          case $choice in
-            n)
-              create_todolist
-              ;;
-            d*)
-              delete_todolist ${choice:1}
-              ;;
-            q)
-              exit 0
-              ;;
-            *)
-              continue
-              ;;
-          esac
-        fi
-      break
-    done
+  test $choice -eq $choice 2> /dev/null
+  if [ $? -eq 0 ]
+    then
+      switch_todo $choice
+    else
+      case $choice in
+        n)
+          create_todo
+          ;;
+        d*)
+          delete_todo ${choice:1}
+          ;;
+        q)
+          exit 0
+          ;;
+        help)
+          print_help
+          ;;
+        *)
+          echo Invalid command!
+          ;;
+      esac
+    fi
 }
 
 if [[ $# == 0 ]]
   then
-    list_todolists
+    list_todos
     exit 0
   fi
 
