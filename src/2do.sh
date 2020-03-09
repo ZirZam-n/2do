@@ -12,7 +12,7 @@ function delete_todo
 {
   while true
     do
-      print "delete `pwd`/$*?(y/n)"
+      printf "delete `pwd`/$*?(y/n) "
       read choice
       if [[ $choice == "y" ]]
         then
@@ -46,7 +46,7 @@ function list_todos
   echo List of todos
   for todo in ${todos[@]}
     do
-      echo $todo: `cat ./$todo/state` `cat ./$todo/desc`
+      printf "%d: %s\t\t%s\n" $todo "`cat ./$todo/state`" "`cat ./$todo/desc`"
     done
 }
 
