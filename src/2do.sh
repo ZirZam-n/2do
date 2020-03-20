@@ -50,8 +50,17 @@ function list_todos
 
 function switch_todo
 {
-  test $# -eq 2 || (echo Invalid command! && return 1)
-  test -d $2 || (echo No such todo! && return 1)
+  if [[ $# -ne 2 ]]
+    then
+      print_help short
+      return 1
+    fi
+  
+  if ![[ -d $2 ]]
+    then
+      print_help short
+      return 1
+    fi
 
   comm=${1,,}
   case $comm in
@@ -65,7 +74,7 @@ function switch_todo
       status=DONE
       ;;
     *)
-      echo Invalid command! && return 1
+      print_help short && return 1
       ;;
   esac
   
