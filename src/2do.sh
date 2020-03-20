@@ -78,24 +78,31 @@ function command_handler
   printf "> "
   read choice
 
-  case $choice in
+  arg1=`echo $choice | awk '{print $1}'`
+  arg2=`echo $choice | awk '{print $2}'`
+
+
+  case $arg1 in
     l)
       list_todos
       ;;
     n)
       create_todo
       ;;
-    del*)
-      delete_todo ${choice:3}
+    d)
+      delete_todo $arg2
       ;;
     q)
       exit 0
       ;;
-    help)
+    h)
+      print_help
+      ;;
+    \?)
       print_help
       ;;
     *)
-      switch_todo $choice
+      switch_todo $arg1 $arg2
       ;;
   esac
 }
