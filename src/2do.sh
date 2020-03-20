@@ -41,6 +41,11 @@ function list_todos
 {
 
   todos=(`(ls -d */ 2> /dev/null) | cut -d'/' -f1`)
+  if [[ ${#todos[@]} -eq 0 ]]
+    then
+      echo Current todolist is empty :\(
+      return 0
+    fi
   echo List of todos
   for todo in ${todos[@]}
     do
