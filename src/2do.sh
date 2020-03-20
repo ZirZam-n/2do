@@ -73,6 +73,25 @@ function switch_todo
   
 }
 
+function print_help
+{
+  if [[ $1 == "short" ]]
+    then
+      echo use '?' or 'h' command for help.
+      return 0
+    fi
+cat <<EOF
+  l: list todos
+  n: create new todo
+  d <id>: delete todo with id=<id>
+  todo <id>: change status of todo <id> to \`TODO\`
+  doint <id>: change status of todo <id> to \`DOING\`
+  done <id>: change status of todo <id> to \`DONE\`
+  q: quit
+  [h|?]: show this help
+EOF
+}
+
 function command_handler
 {
   printf "> "
