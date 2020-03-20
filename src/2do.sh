@@ -135,8 +135,10 @@ function command_handler
   esac
 }
 
-test $# -eq 1 && test $1 == "-l" && ls && exit
-(test $# -eq 1 && PROJECT=$1) || PROJECT=default
+PROJECT=default
+test $# -ge 1 && test $1 == "-l" && ls && exit
+test $# -ge 1 && test $1 == "--drop-lists" && rm -rf * && exit
+test $# -ge 1 && PROJECT=$1
 
 echo PROJECT: $PROJECT
 mkdir -p $PROJECT
