@@ -1,5 +1,5 @@
 # 2do
-Create and mange todo lists in terminal
+Create and manage todo lists in terminal
 
 This script is based on bash and I've written it in Ubuntu. But I think it can be used in any Linux distro!
 
