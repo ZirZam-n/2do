@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # general constants
 GREEN='\033[1;32m'

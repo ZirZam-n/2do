@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 BIN_DIR=/usr/local/bin
 BIN_PATH=$BIN_DIR/2do
