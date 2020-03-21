@@ -111,7 +111,7 @@ function switch_todo
       return 1
     fi
   
-  if ![[ -d $2 ]]
+  if [[ !( -d $2 ) ]]
     then
       print_help short
       return 1
