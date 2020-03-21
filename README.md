@@ -40,7 +40,7 @@ Usage: 2do <project>      open list of project <project> todos
 
 Also after running this is program by issuing `2do your_project_name`, it may be a little complicated to add and edit to-do items. In this case, you may issue '?' or 'h' command in the program to print a minimal help.
 ```
-  l: list todos
+  l[a]: list todos, doings[ and dones]
   n: create new todo
   d <id>: delete todo with id=<id>
   todo <id>: change status of todo <id> to `TODO`

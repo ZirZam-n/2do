@@ -145,7 +145,7 @@ function print_help
       return 0
     fi
 cat <<EOF
-  l[a]: list todos
+  l[a]: list todos, doings[ and dones]
   n: create new todo
   d <id>: delete todo with id=<id>
   todo <id>: change status of todo <id> to \`TODO\`
