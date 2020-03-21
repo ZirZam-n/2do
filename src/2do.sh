@@ -140,9 +140,21 @@ function command_handler
   esac
 }
 
+function print_command_help {
+  cat <<EOF
+Usage: 2do <project>      open list of project <project> todos
+       2do -l             list all available projects
+           --list
+       2do --drop-lists   remove all the projects and todo items
+       2do -h             print this help and exit
+           --help
+EOF
+}
+
 PROJECT=default
-test $# -ge 1 && test $1 == "-l" && ls && exit
-test $# -ge 1 && test $1 == "--drop-lists" && rm -rf * && exit
+test $# -ge 1 && (test $1 == '-l' || test $1 == '--list') && ls && exit
+test $# -ge 1 && (test $1 == '-h' || test $1 == '--help') && print_command_help && exit
+test $# -ge 1 && test $1 == '--drop-lists' && rm -rf * && exit
 test $# -ge 1 && PROJECT=$1
 
 echo PROJECT: $PROJECT
