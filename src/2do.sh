@@ -6,6 +6,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[1;36m'
 NC='\033[0m'
 
+# application specific constants
 DATA_DIR=~/.2do
 mkdir -p $DATA_DIR
 cd $DATA_DIR
