@@ -45,11 +45,62 @@ function list_todos
       echo Current todolist is empty :\(
       return 0
     fi
-  echo List of todos
+
+  printed=0
+  echo DOINGs:
   for todo in ${todos[@]}
     do
-      printf "%d: %s\t\t%s\n" $todo "`cat ./$todo/state`" "`cat ./$todo/desc`"
+      state=`cat ./$todo/state`
+      if [[ $state == "DOING" ]]
+        then
+          printf "%d: %s\t\t%s\n" $todo "`cat ./$todo/desc`"
+          printed=1
+        fi
     done
+  if [[ $printed -eq 0 ]]
+    then
+      echo "<nothing>"
+    fi
+  echo
+
+  printed=0
+  echo TODOs:
+  for todo in ${todos[@]}
+    do
+      state=`cat ./$todo/state`
+      if [[ $state == "TODO" ]]
+        then
+          printf "%d: %s\t\t%s\n" $todo "`cat ./$todo/desc`"
+          printed=1
+        fi
+    done
+  if [[ $printed -eq 0 ]]
+    then
+      echo "<nothing>"
+    fi
+  echo
+
+  if [ $# != 1 ] || [ $1 != "all" ]
+    then
+      return 0
+    fi
+
+  printed=0
+  echo DONEs:
+  for todo in ${todos[@]}
+    do
+      state=`cat ./$todo/state`
+      if [[ $state == "DONE" ]]
+        then
+          printf "%d: %s\t\t%s\n" $todo "`cat ./$todo/desc`"
+          printed=1
+        fi
+    done
+  if [[ $printed -eq 0 ]]
+    then
+      echo "<nothing>"
+    fi
+  echo
 }
 
 function switch_todo
@@ -94,7 +145,7 @@ function print_help
       return 0
     fi
 cat <<EOF
-  l: list todos
+  l[a]: list todos
   n: create new todo
   d <id>: delete todo with id=<id>
   todo <id>: change status of todo <id> to \`TODO\`
@@ -117,6 +168,9 @@ function command_handler
   case $arg1 in
     l)
       list_todos
+      ;;
+    la)
+      list_todos all
       ;;
     n)
       create_todo
