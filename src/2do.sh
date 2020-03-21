@@ -99,7 +99,7 @@ cat <<EOF
   n: create new todo
   d <id>: delete todo with id=<id>
   todo <id>: change status of todo <id> to \`TODO\`
-  doint <id>: change status of todo <id> to \`DOING\`
+  doing <id>: change status of todo <id> to \`DOING\`
   done <id>: change status of todo <id> to \`DONE\`
   q: quit
   [h|?]: show this help
