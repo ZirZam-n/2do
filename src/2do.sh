@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# general constants
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;36m'
+NC='\033[0m'
+
 DATA_DIR=~/.2do
 mkdir -p $DATA_DIR
 cd $DATA_DIR
@@ -47,7 +53,7 @@ function list_todos
     fi
 
   printed=0
-  echo DOINGs:
+  printf "${BLUE}DOINGs:${NC}\n"
   for todo in ${todos[@]}
     do
       state=`cat ./$todo/state`
@@ -64,7 +70,7 @@ function list_todos
   echo
 
   printed=0
-  echo TODOs:
+  printf "${YELLOW}TODOs:${NC}\n"
   for todo in ${todos[@]}
     do
       state=`cat ./$todo/state`
@@ -86,7 +92,7 @@ function list_todos
     fi
 
   printed=0
-  echo DONEs:
+  printf "${GREEN}DONEs:${NC}\n"
   for todo in ${todos[@]}
     do
       state=`cat ./$todo/state`
