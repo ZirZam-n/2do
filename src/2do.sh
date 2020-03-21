@@ -39,8 +39,7 @@ function create_todo
 
 function list_todos
 {
-
-  todos=(`(ls -d */ 2> /dev/null) | cut -d'/' -f1`)
+  todos=(`(ls -d */ 2> /dev/null) | cut -d'/' -f1 | sort -n`)
   if [[ ${#todos[@]} -eq 0 ]]
     then
       echo Current todolist is empty :\(
