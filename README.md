@@ -10,7 +10,7 @@ There isn't any complex requirement to run it; Just some simple commands like `a
 ## Install
 Follow these steps to install and use 2do:
 
-* Clone the project and `cd` into its root folder.
+* Clone the project and `cd` into its root directory.
 
 * Add execute permission to setup.sh file.
 
